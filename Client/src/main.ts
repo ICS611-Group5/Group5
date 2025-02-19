@@ -19,7 +19,6 @@ import {
 	QItem, QItemSection
 } from 'quasar'
 import '@quasar/extras/material-icons/material-icons.css';
-import 'quasar/src/css/index.sass';
 import 'quasar/dist/quasar.css'
 import '@mdi/font/css/materialdesignicons.min.css'
 
