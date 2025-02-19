@@ -74,4 +74,3 @@ Please follow the [contribution guidelines](CONTRIBUTING.md) when submitting pul
 
 ---
 
-By following these instructions, you should be able to set up your local environment and start working on the project. If you have any questions or run into issues, feel free to reach out to the team.
