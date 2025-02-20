@@ -47,17 +47,16 @@ const columns = [
   { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
   { name: 'price', align: 'center', label: 'Price', field: 'price', sortable: true },
   { name: 'description', align: 'left', label: 'Description', field: 'description', sortable: true },
-  { name: 'actions', align: 'center', label: 'Actions', field: 'actions' }
+  { name: 'actions', align: 'left', label: 'Actions', field: 'actions' }
 ];
 </script>
 
 <template>
-  <v-row>
+  <v-row class="h-screen">
     <v-col cols="12">
-      <h1 class="py-20">Items</h1>
+      <h1 class="py-20">Items Available</h1>
       <div class="ingredient-container" style="padding: 20px 0;">
         <q-table
-            title="Items Available"
             :rows="items"
             :columns="columns"
             row-key="name"

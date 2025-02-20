@@ -12,11 +12,11 @@ body {
 .main-text {
   font-family: 'Josefin Sans', sans-serif;
   font-size: xx-large;
+  text-decoration: none;
 }
 .main-content {
   padding: 8px 32px 24px;
   background: linear-gradient(to top, #B3B3B3, #FFFFFF);
-
 }
 
 input[type="file"] {
@@ -145,7 +145,7 @@ body[data-dark="true"] {
 }
 
 body[data-dark="true"] a,
-body[data-dark="true"] .search-link{
+body[data-dark="true"] .search-link {
   color: #EDEDED;
 }
 
@@ -168,14 +168,10 @@ body[data-dark="true"] .custom-file-upload {
   border-color: #555;
 }
 
-body[data-dark="true"] div.main-center {
-  background-color: inherit
-}
-
 body[data-dark="true"] .main-content {
-  background: linear-gradient(to top,  #404040, #121212);
-
+  background: linear-gradient(to top, #404040, #121212);
 }
+
 body[data-dark="true"] .post-container {
   background-color: #121212;
 }
@@ -184,14 +180,10 @@ body[data-dark="true"] .q-table thead {
   background-color: #282828;
 }
 
-body[data-dark="true"] .q-table tbody tr.cursor-pointer:nth-child(odd) {
-  background-color: #404040;
-}
-
+body[data-dark="true"] .q-table tbody tr.cursor-pointer:nth-child(odd),
 body[data-dark="true"] .q-table tbody tr.cursor-pointer:nth-child(even) {
   background-color: #404040;
 }
-
 
 body[data-dark="true"] .profile-container,
 body[data-dark="true"] .people-container,
@@ -235,12 +227,6 @@ body[data-dark="true"] .q-item-label {
   color: #EDEDED;
 }
 
-/*body[data-dark="true"] .q-field__append,*/
-/*body[data-dark="true"] .q-field__native {*/
-/*    background-color: #282828;*/
-/*    border-color: #4A5568;*/
-/*}*/
-
 body[data-dark="true"] .q-expansion-item,
 body[data-dark="true"] .q-field,
 body[data-dark="true"] .q-expansion-item__container {
@@ -248,6 +234,7 @@ body[data-dark="true"] .q-expansion-item__container {
   border-color: #4A5568;
   color: #EDEDED;
 }
+
 body[data-dark="true"] .ingredient-container {
   background-color: #181818;
   border-color: #4A5568;
@@ -261,11 +248,13 @@ body[data-dark="true"] .q-table__bottom-item {
 body[data-dark="true"] .q-table__container {
   background-color: #282828;
 }
+
 body[data-dark="true"] .q-item {
   background-color: #181818;
   border-color: #4A5568;
   color: #EDEDED;
 }
+
 body[data-dark="true"] .search-input-light {
   background-color: #FFFFFF !important;
   border: 1px solid #4A5568 !important;
@@ -280,12 +269,10 @@ body[data-dark="true"] .trend-explore-btn {
 }
 
 body[data-dark="true"] .feed-item-container {
-
-}
-.feed-item-container {
   padding: 5px;
   border-radius: 5px;
 }
+
 body[data-dark="true"] .input-background {
   background-color: #000000;
 }
@@ -316,33 +303,4 @@ body[data-dark="true"] .received-message-bubble {
   transition: background-color 0.3s ease, color 0.3s ease;
   text-decoration: none;
   color: inherit;
-}
-
-.nav-link:hover {
-  background-color: #CBD5E0;
-  color: #007BFF;
-}
-
-.nav-link:focus, .nav-link:active {
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Dark mode styles for nav-link */
-body[data-dark="true"] .nav-link {
-  color: #EDEDED; /* Adjust as needed */
-}
-
-body[data-dark="true"] .nav-link:hover {
-  background-color: #4A5568;
-  color: #E2E8F0; /* Adjust to a lighter color for better contrast in dark mode */
-}
-
-body[data-dark="true"] .nav-link:focus, body[data-dark="true"] .nav-link:active {
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25); /* Adjust to a lighter box shadow for dark mode */
-}
-
-body[data-dark="true"] .dark-mode-toggle,
-body[data-dark="true"] .menu-right {
-  background-color: #121212;
 }
