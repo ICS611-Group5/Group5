@@ -16,3 +16,4 @@ These fixes generally resolve issues that don't affect the software's overall fu
 
 ## 0.0.1
 - set up ItemView and App.vue for demo purposes
+- set up dark mode toggle
