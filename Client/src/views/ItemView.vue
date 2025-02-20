@@ -61,7 +61,7 @@ const columns = [
             :rows="items"
             :columns="columns"
             row-key="name"
-        >
+         binary-state-sort>
           <template v-slot:body-cell-actions="props">
             <q-btn flat round icon="edit" @click="editItem(props.row)" />
             <q-btn flat round icon="delete" color="red" @click="deleteItem(props.row._id)" />
