@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { QTable, QBtn } from 'quasar';
 
 const items = ref([]);
 const newItem = ref({ name: '', price: 0, description: '' });
@@ -28,6 +29,11 @@ const addItem = async () => {
   }
 };
 
+const editItem = async (item) => {
+  // Implement the logic to edit the item
+  console.log('Edit item:', item);
+};
+
 const deleteItem = async (id) => {
   try {
     await axios.delete(`http://localhost:5001/api/items/${id}`);
@@ -37,40 +43,31 @@ const deleteItem = async (id) => {
   }
 };
 
-const updateItem = async () => {
-  try {
-    const response = await axios.put(`http://localhost:5001/api/items/${editItem.value._id}`, editItem.value);
-    const index = items.value.findIndex(item => item._id === editItem.value._id);
-    items.value[index] = response.data;
-    editItem.value = null;
-  } catch (error) {
-    console.error('Error updating item:', error);
-  }
-};
-
-const startEdit = (item) => {
-  editItem.value = { ...item };
-};
+const columns = [
+  { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
+  { name: 'price', align: 'center', label: 'Price', field: 'price', sortable: true },
+  { name: 'description', align: 'left', label: 'Description', field: 'description', sortable: true },
+  { name: 'actions', align: 'center', label: 'Actions', field: 'actions' }
+];
 </script>
 
 <template>
-  <q-page class="flex flex-center q-pa-md" style="height: 100vh; background-color: #333;">
-    <div class="q-mx-auto" style="max-width: 600px; width: 100%;">
-      <h1>Items</h1>
-      <ul>
-        <li v-for="item in items" :key="item._id">
-          {{ item.name }} - {{ item.price }} - {{ item.description }}
-          <button @click="startEdit(item)">Edit</button>
-          <button @click="deleteItem(item._id)">Delete</button>
-        </li>
-      </ul>
-      <h2 v-if="editItem">Edit Item</h2>
-      <form v-if="editItem" @submit.prevent="updateItem">
-        <input v-model="editItem.name" placeholder="Name" required />
-        <input v-model="editItem.price" type="number" placeholder="Price" required />
-        <input v-model="editItem.description" placeholder="Description" />
-        <button type="submit">Update Item</button>
-      </form>
+  <v-row>
+    <v-col cols="12">
+      <h1 class="py-20">Items</h1>
+      <div class="ingredient-container" style="padding: 20px 0;">
+        <q-table
+            title="Items Available"
+            :rows="items"
+            :columns="columns"
+            row-key="name"
+        >
+          <template v-slot:body-cell-actions="props">
+            <q-btn flat round icon="edit" @click="editItem(props.row)" />
+            <q-btn flat round icon="delete" color="red" @click="deleteItem(props.row._id)" />
+          </template>
+        </q-table>
+      </div>
       <h2>Add New Item</h2>
       <form @submit.prevent="addItem">
         <input v-model="newItem.name" placeholder="Name" required />
@@ -78,11 +75,6 @@ const startEdit = (item) => {
         <input v-model="newItem.description" placeholder="Description" />
         <button type="submit">Add Item</button>
       </form>
-    </div>
-  </q-page>
+    </v-col>
+  </v-row>
 </template>
-
-<style scoped>
-
-
-</style>
