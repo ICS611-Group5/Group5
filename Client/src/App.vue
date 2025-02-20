@@ -58,7 +58,6 @@ watch(isDarkMode, (newVal) => {
     <RouterView />
   </main>
 
-  <Toast />
 </template>
 <style scoped>
 
