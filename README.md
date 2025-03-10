@@ -70,7 +70,7 @@ The production-ready files will be in the `dist` directory.
 
 ## Contributing
 
-Please 
+
 
 ---
 
