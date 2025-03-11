@@ -52,7 +52,7 @@ Start the Backend development server, from the terminal in the `Backend` directo
 ```
 node index.js
 ```
-The application should now be running at `http://localhost:5001`.
+The application should now be running at `http://localhost:5173`.
 
 
 Start the Client development server, from the terminal in the `Client` directory:
