@@ -12,13 +12,22 @@ Ensure you have the following installed on your local machine:
 Clone the project repository from GitHub:
 
 ```bash
-git clone https://github.com/sjones138/Group5.git
+git clone https://github.com/ICS611-Group5/Group5.git
 cd group5
 ```
 
-## Install Dependencies
+## Install Dependencies for Backend
 
-Navigate to the project directory and install the required dependencies:
+Open a terminal and navigate to the Backend project directory and install the required dependencies:
+From the root directory of the project, navigate to the `Backend` directory:
+
+```bash
+cd Backend
+npm install
+```
+
+
+Open a second terminal and navigate to the Client project directory and install the required dependencies:
 
 ```bash
 cd Client
@@ -30,34 +39,35 @@ npm install
 Create a `.env` file in the `Backend` directory and add your MongoDB Cluster connection string:
 
 Should be in this format...(this is NOT a real connection string)
-for access to G5 Cluster please message seanjonze@gmail.com
+
 ```plaintext
-MONGODB_URI=mongodb+srv://shawnjones:nicdsoi;vn;iosadniovndsianv jknds```
+MONGODB_URI=mongodb+srv://shawnjones:nicdsoi;vn;iosadniovndsianv.duv6r.mongodb.net/?retryWrites=true&w=majority&appName=ClusterG5
+```
+For Access to the G5 Cluster please message: shawn.jonze@gmail.com
 
 ## Run the Development Server
 
-Start the development server:
+Start the Backend development server, from the terminal in the `Backend` directory:
 
-```bash
+```
+node index.js
+```
+The application should now be running at `http://localhost:5173`.
+
+
+Start the Client development server, from the terminal in the `Client` directory:
+
+```
 npm run dev
 ```
 
-The application should now be running at `http://localhost:3000`.
-
-## Linting and Formatting
-
-To lint and format the code, run:
-
-```bash
-npm run lint
-npm run format
-```
+The application should now be running at `http://localhost:5001`.
 
 ## Build for Production
 
 To build the project for production, run:
 
-```bash
+```
 npm run build
 ```
 
