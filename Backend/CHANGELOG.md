@@ -16,3 +16,6 @@ These fixes generally resolve issues that don't affect the software's overall fu
 
 ## 0.0.1
 - set up Item model for demo purposes
+
+## 1.0.0
+- set up backend to handle bulk inserts

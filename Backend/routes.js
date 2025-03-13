@@ -1,6 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const Item = require('./models/Item'); // Import the Item model
+const Item = require('./models/Item');
+const csv = require('csv-parser');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
+// Ensure the uploads directory exists
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+const upload = multer({ storage });
 
 // Get all items
 router.get('/items', async (req, res) => {
@@ -52,6 +73,25 @@ router.delete('/items/:id', async (req, res) => {
         res.json({ message: 'Item deleted successfully' });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+// Bulk upload items
+router.post('/bulk-upload', upload.single('file'), async (req, res) => {
+    try {
+        const results = [];
+        fs.createReadStream(req.file.path)
+            .pipe(csv())
+            .on('data', (data) => {
+                results.push(data);
+            })
+            .on('end', async () => {
+                await Item.insertMany(results);
+                res.status(200).send('Bulk upload successful');
+            });
+    } catch (error) {
+        console.error('Error during bulk upload:', error); // Log error
+        res.status(500).send(error);
     }
 });
 
