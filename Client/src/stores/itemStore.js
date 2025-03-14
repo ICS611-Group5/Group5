@@ -24,12 +24,31 @@ export const useItemStore = defineStore('itemStore', {
                 console.error('Error adding item:', error);
             }
         },
+        async editItem(item) {
+            try {
+                const response = await axios.put(`http://localhost:5001/api/items/${item._id}`, item);
+                const index = this.items.findIndex(i => i._id === item._id);
+                if (index !== -1) {
+                    this.items[index] = response.data;
+                }
+            } catch (error) {
+                console.error('Error editing item:', error);
+            }
+        },
         async deleteItem(id) {
             try {
                 await axios.delete(`http://localhost:5001/api/items/${id}`);
                 this.items = this.items.filter(item => item._id !== id);
             } catch (error) {
                 console.error('Error deleting item:', error);
+            }
+        },
+        async deleteAllItems() {
+            try {
+                await axios.delete('http://localhost:5001/api/items');
+                this.items = [];
+            } catch (error) {
+                console.error('Error deleting all items:', error);
             }
         },
         async bulkUpload(file) {

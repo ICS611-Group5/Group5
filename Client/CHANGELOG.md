@@ -21,3 +21,8 @@ These fixes generally resolve issues that don't affect the software's overall fu
 ## 1.0.0
 - set up frontend to handle bulk inserts
 - moved all api logic to itemStore to manage state
+
+## 1.0.1
+- added 'delete all' functionality to the frontend
+- moved add item and edit item logic to modal component
+- fixed edit item functionality
