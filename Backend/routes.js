@@ -136,6 +136,16 @@ router.delete('/items/:id', async (req, res) => {
     }
 });
 
+// Delete all items
+router.delete('/items', async (req, res) => {
+    try {
+        await Item.deleteMany({});
+        res.json({ message: 'All items deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Bulk upload items
 router.post('/bulk-upload', upload.single('file'), async (req, res) => {
     try {

@@ -19,3 +19,7 @@ These fixes generally resolve issues that don't affect the software's overall fu
 
 ## 1.0.0
 - set up backend to handle bulk inserts
+
+## 1.0.1
+- added bulk delete item functionality
+- fixed edit item functionality
