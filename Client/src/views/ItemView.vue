@@ -3,45 +3,124 @@ import { ref, onMounted } from 'vue';
 import { useItemStore } from '@/stores/itemStore';
 import { QTable, QBtn } from 'quasar';
 import BulkUploadForm from "@/components/BulkUploadForm.vue";
+import EditItemModal from "@/components/EditItemModal.vue";
+import AddItemModal from "@/components/AddItemModal.vue";
 
 const itemStore = useItemStore();
+const editModalRef = ref(null);
+const addModalRef = ref(null);
+const bulkUploadModalRef = ref(null);
 
 onMounted(async () => {
   await itemStore.fetchItems();
 });
 
 const columns = [
-  { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
-  { name: 'price', align: 'center', label: 'Price', field: 'price', sortable: true },
-  { name: 'description', align: 'left', label: 'Description', field: 'description', sortable: true },
-  { name: 'actions', align: 'left', label: 'Actions', field: 'actions' }
+  { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true, style: 'width: 30vw;' },
+  { name: 'price', align: 'center', label: 'Price', field: 'price', sortable: true, style: 'width: 25vw;' },
+  { name: 'description', align: 'left', label: 'Description', field: 'description', sortable: true, style: 'width: 30vw;' },
+  { name: 'actions', align: 'left', label: 'Actions', field: 'actions', style: 'width: 20vw;' }
 ];
+
+const openEditModal = (item) => {
+  editModalRef.value.openModal(item);
+};
+
+const openAddModal = () => {
+  addModalRef.value.openModal();
+};
+
+const deleteAllItems = async () => {
+  await itemStore.deleteAllItems();
+};
+
+const openBulkUploadModal = () => {
+  bulkUploadModalRef.value.openModal();
+};
+
+const fetchMostExpensiveItem = async () => {
+  await itemStore.fetchMostExpensiveItem();
+};
+
+const fetchCheapestItem = async () => {
+  await itemStore.fetchCheapestItem();
+};
 </script>
 
 <template>
-  <v-row class="h-screen">
-    <v-col cols="12">
-      <h1 class="py-20">Items Available</h1>
-      <div class="ingredient-container" style="padding: 20px 0;">
-        <q-table
-            :rows="itemStore.items"
-            :columns="columns"
-            row-key="name"
-            binary-state-sort>
-          <template v-slot:body-cell-actions="props">
-            <q-btn flat round icon="edit" @click="itemStore.editItem(props.row)" />
-            <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />
-          </template>
-        </q-table>
-      </div>
-      <h2>Add New Item</h2>
-      <form @submit.prevent="itemStore.addItem">
-        <input v-model="itemStore.newItem.name" placeholder="Name" required />
-        <input v-model="itemStore.newItem.price" type="number" placeholder="Price" required />
-        <input v-model="itemStore.newItem.description" placeholder="Description" />
-        <button type="submit">Add Item</button>
-      </form>
-      <BulkUploadForm @upload-success="itemStore.fetchItems" />
-    </v-col>
-  </v-row>
+  <div class="container">
+    <div class="header">
+      <h1>Items Available</h1>
+    </div>
+    <div class="button-container">
+      <q-btn label="Add New Item" @click="openAddModal" />
+      <BulkUploadForm ref="bulkUploadModalRef" @upload-success="itemStore.fetchItems" />
+      <q-btn label="Delete All Items" color="red" @click="deleteAllItems" />
+      <q-btn label="Most Expensive Item" @click="fetchMostExpensiveItem" />
+      <q-btn label="Cheapest Item" @click="fetchCheapestItem" />
+    </div>
+    <div class="table-container">
+      <q-table
+          class="table"
+          :rows="itemStore.items"
+          :columns="columns"
+          row-key="name"
+          binary-state-sort>
+        <template v-slot:body-cell-actions="props">
+          <q-btn flat round icon="edit" @click="openEditModal(props.row)" />
+          <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />
+        </template>
+      </q-table>
+    </div>
+    <div v-if="itemStore.mostExpensiveItem" class="item-info">
+      <h2>Most Expensive Item</h2>
+      <p>Name: {{ itemStore.mostExpensiveItem.name }}</p>
+      <p>Price: {{ itemStore.mostExpensiveItem.price }}</p>
+      <p>Description: {{ itemStore.mostExpensiveItem.description }}</p>
+    </div>
+    <div v-if="itemStore.cheapestItem" class="item-info">
+      <h2>Cheapest Item</h2>
+      <p>Name: {{ itemStore.cheapestItem.name }}</p>
+      <p>Price: {{ itemStore.cheapestItem.price }}</p>
+      <p>Description: {{ itemStore.cheapestItem.description }}</p>
+    </div>
+    <EditItemModal ref="editModalRef" />
+    <AddItemModal ref="addModalRef" />
+  </div>
 </template>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 10px;
+}
+
+.header {
+  padding-bottom: 5px;
+}
+
+.table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-bottom: 1vh;
+}
+
+.table {
+  height: 55%;
+  width: 100%;
+}
+
+.item-info {
+  margin-top: 20px;
+}
+</style>

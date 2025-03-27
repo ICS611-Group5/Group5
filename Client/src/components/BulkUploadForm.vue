@@ -44,8 +44,7 @@ const uploadFile = async () => {
 
 <template>
   <div>
-    <h2>Bulk Upload Items</h2>
-    <q-btn @click="openModal" label="Upload" />
+    <q-btn @click="openModal" label=" Bulk Upload" />
     <q-dialog v-model="isModalOpen">
       <q-card>
         <q-card-section>
