@@ -37,6 +37,14 @@ const deleteAllItems = async () => {
 const openBulkUploadModal = () => {
   bulkUploadModalRef.value.openModal();
 };
+
+const fetchMostExpensiveItem = async () => {
+  await itemStore.fetchMostExpensiveItem();
+};
+
+const fetchCheapestItem = async () => {
+  await itemStore.fetchCheapestItem();
+};
 </script>
 
 <template>
