@@ -47,7 +47,7 @@ export const useItemStore = defineStore('itemStore', {
         },
         async deleteAllItems() {
             try {
-                await axios.delete('http://localhost:5001/api/items');
+                const response =await axios.delete('http://localhost:5001/api/items');
                 this.items = [];
             } catch (error) {
                 console.error('Error deleting all items:', error);
@@ -63,7 +63,6 @@ export const useItemStore = defineStore('itemStore', {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                console.log('Upload response:', response);
                 await this.fetchItems();
             } catch (error) {
                 console.error('Error uploading file:', error);

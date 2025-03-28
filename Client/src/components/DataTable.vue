@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useQuasar, type QTableColumn} from 'quasar'
+import {useQuasar, QTable, QInput} from 'quasar'
 import {ref} from 'vue'
 import {computed} from 'vue'
 
@@ -19,20 +19,26 @@ type Props = {
   class?: string,
   showSearch?: boolean,
   search?: string,
+  rowKey?: string,
 }
 type TableHeaders = {
-  field: string | '';
   name: string;
-  style?: string;
   label: string;
-  sortable: boolean;
-  align: string;
-  required: boolean
-}
+  field: string | ((row: any) => any);
+  required?: boolean;
+  align?: 'left' | 'right' | 'center';
+  sortable?: boolean;
+  sort?: (a: any, b: any, rowA: any, rowB: any) => number;
+  format?: (val: any) => string;
+  style?: string;
+  classes?: string;
+  headerClasses?: string;
+};
 
 const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: () => [10, 25, 50, 100],
   showSearch: true,
+  rows: () => [],
 })
 
 const emits = defineEmits(['row-click'])
@@ -74,6 +80,7 @@ const searchSlot = computed( () =>
       class="mb-3 shrink"
       prepend-inner-icon="mdi-magnify"
       :style="{maxWidth: '250px'}"
+      autofocus
   >
     <template #append>
       <q-icon name="search"></q-icon>
@@ -95,6 +102,8 @@ const searchSlot = computed( () =>
       :pagination="{sortBy: defaultSort, descending: defaultSortDescending}"
       @row-click="rowClick"
       :rows-per-page-options="props.itemsPerPage"
+      :row-key="props.rowKey"
+      binary-state-sort
   >
     <!-- pass slots from parent to q-table -->
     <template v-for="(_, name) of $slots" #[doNothing(name)]="slotData">
