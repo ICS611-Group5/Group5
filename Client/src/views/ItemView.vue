@@ -1,15 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useItemStore } from '@/stores/itemStore';
-import { QTable, QBtn } from 'quasar';
+import { QBtn } from 'quasar';
 import BulkUploadForm from "@/components/BulkUploadForm.vue";
 import EditItemModal from "@/components/EditItemModal.vue";
 import AddItemModal from "@/components/AddItemModal.vue";
+import DataTable from "@/components/DataTable.vue";
+import ItemDetailsModal from "@/components/ItemDetailsModal.vue";
 
 const itemStore = useItemStore();
 const editModalRef = ref(null);
 const addModalRef = ref(null);
 const bulkUploadModalRef = ref(null);
+const itemDetailsModalRef = ref(null);
 
 onMounted(async () => {
   await itemStore.fetchItems();
@@ -40,10 +43,12 @@ const openBulkUploadModal = () => {
 
 const fetchMostExpensiveItem = async () => {
   await itemStore.fetchMostExpensiveItem();
+  itemDetailsModalRef.value.openModal(itemStore.mostExpensiveItem);
 };
 
 const fetchCheapestItem = async () => {
   await itemStore.fetchCheapestItem();
+  itemDetailsModalRef.value.openModal(itemStore.cheapestItem);
 };
 </script>
 
@@ -52,6 +57,20 @@ const fetchCheapestItem = async () => {
     <div class="header">
       <h1>Items Available</h1>
     </div>
+    <div class="table-container">
+      <DataTable
+          :show-search="true"
+          class="table"
+          :rows="itemStore.items"
+          :columns="columns"
+          row-key="name"
+      >
+        <template v-slot:body-cell-actions="props">
+          <q-btn flat round icon="edit" @click="openEditModal(props.row)" />
+          <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />
+        </template>
+      </DataTable>
+    </div>
     <div class="button-container">
       <q-btn label="Add New Item" @click="openAddModal" />
       <BulkUploadForm ref="bulkUploadModalRef" @upload-success="itemStore.fetchItems" />
@@ -59,31 +78,7 @@ const fetchCheapestItem = async () => {
       <q-btn label="Most Expensive Item" @click="fetchMostExpensiveItem" />
       <q-btn label="Cheapest Item" @click="fetchCheapestItem" />
     </div>
-    <div class="table-container">
-      <q-table
-          class="table"
-          :rows="itemStore.items"
-          :columns="columns"
-          row-key="name"
-          binary-state-sort>
-        <template v-slot:body-cell-actions="props">
-          <q-btn flat round icon="edit" @click="openEditModal(props.row)" />
-          <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />
-        </template>
-      </q-table>
-    </div>
-    <div v-if="itemStore.mostExpensiveItem" class="item-info">
-      <h2>Most Expensive Item</h2>
-      <p>Name: {{ itemStore.mostExpensiveItem.name }}</p>
-      <p>Price: {{ itemStore.mostExpensiveItem.price }}</p>
-      <p>Description: {{ itemStore.mostExpensiveItem.description }}</p>
-    </div>
-    <div v-if="itemStore.cheapestItem" class="item-info">
-      <h2>Cheapest Item</h2>
-      <p>Name: {{ itemStore.cheapestItem.name }}</p>
-      <p>Price: {{ itemStore.cheapestItem.price }}</p>
-      <p>Description: {{ itemStore.cheapestItem.description }}</p>
-    </div>
+    <ItemDetailsModal ref="itemDetailsModalRef" />
     <EditItemModal ref="editModalRef" />
     <AddItemModal ref="addModalRef" />
   </div>
@@ -105,18 +100,21 @@ const fetchCheapestItem = async () => {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: auto;
-  margin-bottom: auto;
-  padding-bottom: 1vh;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
 }
 
 .table {
-  height: 55%;
   width: 100%;
 }
 

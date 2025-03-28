@@ -33,7 +33,7 @@ router.get('/items', async (req, res) => {
     }
 });
 
-// Retrieve ipems by price range
+// Retrieve items by price range
 router.get('/items/price/:min/:max', async (req, res) => {
     try {
         const items = await Item.find({ price: { $gte: req.params.min, $lte: req.params.max } });
@@ -44,16 +44,6 @@ router.get('/items/price/:min/:max', async (req, res) => {
 });
 
 // Search items by keyword
-router.get('/items/search/:keyword', async (req, res) => {
-    try {
-        const items = await Item.find({ $text: { $search: req.params.keyword } });
-        res.json(items);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
-
-// Search for items by keyword
 router.get('/items/search/:keyword', async (req, res) => {
     try {
         const items = await Item.find({ $text: { $search: req.params.keyword } });
@@ -116,6 +106,16 @@ router.get('/items/:id', async (req, res) => {
     }
 });
 
+// Get most recently added items
+router.get('/items/recent', async (req, res) => {
+    try {
+        const items = await Item.find().sort({ createdAt: -1 }).limit(5);
+        res.json(items);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Update an item
 router.put('/items/:id', async (req, res) => {
     try {
@@ -166,3 +166,12 @@ router.post('/bulk-upload', upload.single('file'), async (req, res) => {
 });
 
 module.exports = router;
+
+
+/*
+sample output:
+[
+    { "name": "Wireless Headphones", "description": "Noise-canceling headphones", "price": 150 },
+    { "name": "Tablet", "description": "10-inch display tablet", "price": 299 }
+]
+*/
