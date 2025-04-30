@@ -21,3 +21,9 @@ These fixes generally resolve issues that don't affect the software's overall fu
 ## 1.0.0
 - set up frontend to handle bulk inserts
 - moved all api logic to itemStore to manage state
+- set up frontend to handle bulk deletions
+
+## 2.0.0
+- Added transaction support for orders
+- Added order form to create orders/make orders
+- Added superuser role to control which view is  visible to the user

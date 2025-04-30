@@ -1,0 +1,49 @@
+name,price,description
+CPU Intel i9-11900K,499.99,8-Core 3.5 GHz
+CPU AMD Ryzen 9 5900X,549.99,12-Core 3.7 GHz
+GPU NVIDIA RTX 3080,699.99,10GB GDDR6X
+GPU AMD Radeon RX 6800 XT,649.99,16GB GDDR6
+Motherboard ASUS ROG Strix Z590-E,299.99,ATX LGA1200
+Motherboard MSI MPG B550 Gaming Edge,179.99,ATX AM4
+RAM Corsair Vengeance LPX 16GB,89.99,DDR4 3200MHz
+RAM G.Skill Trident Z RGB 32GB,159.99,DDR4 3600MHz
+SSD Samsung 970 EVO Plus 1TB,149.99,NVMe M.2
+SSD WD Black SN850 1TB,169.99,NVMe M.2
+HDD Seagate Barracuda 2TB,54.99,7200 RPM
+HDD Western Digital Blue 4TB,89.99,5400 RPM
+PSU Corsair RM850x,129.99,850W 80+ Gold
+PSU EVGA SuperNOVA 750 G5,119.99,750W 80+ Gold
+Case NZXT H510,69.99,Mid Tower ATX
+Case Fractal Design Meshify C,89.99,Mid Tower ATX
+Cooler Noctua NH-D15,89.99,Air Cooler
+Cooler Corsair H100i RGB Platinum,139.99,Liquid Cooler
+Monitor ASUS TUF Gaming VG27AQ,399.99,27" 1440p 165Hz
+Monitor LG UltraGear 27GL850,449.99,27" 1440p 144Hz
+Keyboard Razer BlackWidow Elite,129.99,Mechanical Keyboard
+Keyboard Corsair K95 RGB Platinum,199.99,Mechanical Keyboard
+Mouse Logitech G502 Hero,49.99,Gaming Mouse
+Mouse Razer DeathAdder V2,69.99,Gaming Mouse
+Headset SteelSeries Arctis 7,149.99,Wireless Gaming Headset
+Headset HyperX Cloud II,99.99,Wired Gaming Headset
+Speakers Logitech Z623,129.99,2.1 Speaker System
+Speakers Creative Pebble 2.0,24.99,Desktop Speakers
+Webcam Logitech C920,79.99,1080p Webcam
+Webcam Razer Kiyo,99.99,1080p Webcam with Ring Light
+Router ASUS RT-AX88U,299.99,WiFi 6 Router
+Router Netgear Nighthawk RAX50,249.99,WiFi 6 Router
+External HDD Seagate Backup Plus 5TB,119.99,Portable External HDD
+External HDD WD My Passport 4TB,99.99,Portable External HDD
+USB Drive SanDisk Ultra 128GB,19.99,USB 3.0 Flash Drive
+USB Drive Kingston DataTraveler 64GB,14.99,USB 3.0 Flash Drive
+Docking Station Anker PowerExpand Elite,249.99,13-in-1 Thunderbolt 3 Dock
+Docking Station Dell WD19TB,299.99,Thunderbolt Docking Station
+Printer HP OfficeJet Pro 9015,229.99,All-in-One Printer
+Printer Canon PIXMA TR8520,179.99,All-in-One Printer
+Scanner Fujitsu ScanSnap iX1500,419.99,Document Scanner
+Scanner Epson Perfection V600,229.99,Photo Scanner
+NAS Synology DS220+,299.99,2-Bay NAS
+NAS QNAP TS-251D,249.99,2-Bay NAS
+UPS APC Back-UPS Pro 1500VA,199.99,Uninterruptible Power Supply
+UPS CyberPower CP1500AVRLCD,179.99,Uninterruptible Power Supply
+VR Headset Oculus Quest 2,299.99,Standalone VR Headset
+VR Headset HTC Vive Cosmos,699.99,PC VR Headset
