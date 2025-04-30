@@ -16,7 +16,11 @@ const ItemSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    quantity: {
+        type: Number,
+        default: 0
+    },
 });
 
 const Item = mongoose.model('Item', ItemSchema);

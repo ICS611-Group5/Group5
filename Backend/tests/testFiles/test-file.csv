@@ -1,6 +1,49 @@
-name,price,description
-Item1,10.99,Description for Item1
-Item2,15.49,Description for Item2
-Item3,7.99,Description for Item3
-Item4,12.00,Description for Item4
-Item5,9.75,Description for Item5
+name,price,description,quantity
+CPU Intel i9-11900K,499.99,8-Core 3.5 GHz,42
+CPU AMD Ryzen 9 5900X,549.99,12-Core 3.7 GHz,87
+GPU NVIDIA RTX 3080,699.99,10GB GDDR6X,15
+GPU AMD Radeon RX 6800 XT,649.99,16GB GDDR6,63
+Motherboard ASUS ROG Strix Z590-E,299.99,ATX LGA1200,29
+Motherboard MSI MPG B550 Gaming Edge,179.99,ATX AM4,74
+RAM Corsair Vengeance LPX 16GB,89.99,DDR4 3200MHz,56
+RAM G.Skill Trident Z RGB 32GB,159.99,DDR4 3600MHz,91
+SSD Samsung 970 EVO Plus 1TB,149.99,NVMe M.2,38
+SSD WD Black SN850 1TB,169.99,NVMe M.2,22
+HDD Seagate Barracuda 2TB,54.99,7200 RPM,67
+HDD Western Digital Blue 4TB,89.99,5400 RPM,11
+PSU Corsair RM850x,129.99,850W 80+ Gold,48
+PSU EVGA SuperNOVA 750 G5,119.99,750W 80+ Gold,36
+Case NZXT H510,69.99,Mid Tower ATX,77
+Case Fractal Design Meshify C,89.99,Mid Tower ATX,25
+Cooler Noctua NH-D15,89.99,Air Cooler,64
+Cooler Corsair H100i RGB Platinum,139.99,Liquid Cooler,18
+Monitor ASUS TUF Gaming VG27AQ,399.99,27" 1440p 165Hz,53
+Monitor LG UltraGear 27GL850,449.99,27" 1440p 144Hz,92
+Keyboard Razer BlackWidow Elite,129.99,Mechanical Keyboard,31
+Keyboard Corsair K95 RGB Platinum,199.99,Mechanical Keyboard,85
+Mouse Logitech G502 Hero,49.99,Gaming Mouse,14
+Mouse Razer DeathAdder V2,69.99,Gaming Mouse,78
+Headset SteelSeries Arctis 7,149.99,Wireless Gaming Headset,66
+Headset HyperX Cloud II,99.99,Wired Gaming Headset,19
+Speakers Logitech Z623,129.99,2.1 Speaker System,88
+Speakers Creative Pebble 2.0,24.99,Desktop Speakers,47
+Webcam Logitech C920,79.99,1080p Webcam,62
+Webcam Razer Kiyo,99.99,1080p Webcam with Ring Light,21
+Router ASUS RT-AX88U,299.99,WiFi 6 Router,39
+Router Netgear Nighthawk RAX50,249.99,WiFi 6 Router,95
+External HDD Seagate Backup Plus 5TB,119.99,Portable External HDD,12
+External HDD WD My Passport 4TB,99.99,Portable External HDD,84
+USB Drive SanDisk Ultra 128GB,19.99,USB 3.0 Flash Drive,50
+USB Drive Kingston DataTraveler 64GB,14.99,USB 3.0 Flash Drive,73
+Docking Station Anker PowerExpand Elite,249.99,13-in-1 Thunderbolt 3 Dock,26
+Docking Station Dell WD19TB,299.99,Thunderbolt Docking Station,68
+Printer HP OfficeJet Pro 9015,229.99,All-in-One Printer,33
+Printer Canon PIXMA TR8520,179.99,All-in-One Printer,80
+Scanner Fujitsu ScanSnap iX1500,419.99,Document Scanner,45
+Scanner Epson Perfection V600,229.99,Photo Scanner,97
+NAS Synology DS220+,299.99,2-Bay NAS,16
+NAS QNAP TS-251D,249.99,2-Bay NAS,72
+UPS APC Back-UPS Pro 1500VA,199.99,Uninterruptible Power Supply,59
+UPS CyberPower CP1500AVRLCD,179.99,Uninterruptible Power Supply,34
+VR Headset Oculus Quest 2,299.99,Standalone VR Headset,81
+VR Headset HTC Vive Cosmos,699.99,PC VR Headset,13
