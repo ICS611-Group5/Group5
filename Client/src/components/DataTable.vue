@@ -25,14 +25,21 @@ type TableHeaders = {
   name: string;
   style: string;
   label: string;
-  sortable: boolean;
-  align: string;
-  required: boolean
-}
+  field: string | ((row: any) => any);
+  required?: boolean;
+  align?: 'left' | 'right' | 'center';
+  sortable?: boolean;
+  sort?: (a: any, b: any, rowA: any, rowB: any) => number;
+  format?: (val: any) => string;
+  style?: string;
+  classes?: string;
+  headerClasses?: string;
+};
 
 const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: () => [10, 25, 50, 100],
   showSearch: true,
+  rows: () => [],
 })
 const nemberOfRows = ref(5)
 const emits = defineEmits(['row-click'])
@@ -72,6 +79,7 @@ const searchSlot = computed(() =>
       class="mb-3 shrink"
       prepend-inner-icon="mdi-magnify"
       :style="{maxWidth: '250px'}"
+      autofocus
   >
     <template #append>
       <q-icon name="search"></q-icon>
