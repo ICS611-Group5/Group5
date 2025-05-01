@@ -26,3 +26,6 @@ These fixes generally resolve issues that don't affect the software's overall fu
 - added 'delete all' functionality to the frontend
 - moved add item and edit item logic to modal component
 - fixed edit item functionality
+
+## 2.0.0
+- added transaction/order functionality

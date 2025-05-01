@@ -13,6 +13,10 @@ const ItemSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    quantity: {
+        type: Number,
+        default: 0
+    },
     createdAt: {
         type: Date,
         default: Date.now

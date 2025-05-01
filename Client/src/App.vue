@@ -3,12 +3,15 @@ import '@/assets/main.css'
 import {ref, computed, watch} from 'vue'
 import { useRoute } from 'vue-router'
 import { useSettingsStore } from '@/stores/settings'
+import { useItemStore } from '@/stores/itemStore'
+import {QBtn} from "quasar";
 
 
 
 // STORES / STATE MANAGEMENT
 const route = useRoute()
 const settingsStore = useSettingsStore()
+const itemStore = useItemStore()
 
 const isDarkMode = computed(() => settingsStore.darkMode)
 
@@ -42,7 +45,9 @@ watch(isDarkMode, (newVal) => {
             <q-icon name="mdi-clipboard-outline" size="lg"/>
             <q-tooltip>Items</q-tooltip>
           </RouterLink>
-
+          <q-btn @click="itemStore.toggleSuperUser">
+            {{ itemStore.isSuperUser ? 'Switch to User' : 'Switch to SuperUser' }}
+          </q-btn>
         </div>
 
         <div class="menu-right">

@@ -23,3 +23,6 @@ These fixes generally resolve issues that don't affect the software's overall fu
 ## 1.0.1
 - added bulk delete item functionality
 - fixed edit item functionality
+
+## 2.0.0
+- Added transaction support for orders

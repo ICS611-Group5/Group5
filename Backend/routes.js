@@ -165,6 +165,32 @@ router.post('/bulk-upload', upload.single('file'), async (req, res) => {
     }
 });
 
+// Fill order of items
+router.post('/place-order', async (req, res) => {
+    const session = await startSession();
+    session.startTransaction();
+
+    try {
+        const { items } = req.body;
+
+        for (const orderItem of items) {
+            const item = await Item.findById(orderItem._id).session(session);
+            if (item.quantity < orderItem.quantity) {
+                throw new Error(`Insufficient quantity for item: ${item.name}`);
+            }
+            item.quantity -= orderItem.quantity;
+            await item.save({ session });
+        }
+
+        await session.commitTransaction();
+        await session.endSession();
+        res.status(200).json({ message: 'Order placed successfully' });
+    } catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+        res.status(500).json({ error: error.message });
+    }
+});
 module.exports = router;
 
 

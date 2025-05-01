@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import {useLocalStorage} from "@vueuse/core";
+
 
 export const useItemStore = defineStore('itemStore', {
     state: () => ({
@@ -7,6 +9,8 @@ export const useItemStore = defineStore('itemStore', {
         newItem: { name: '', price: 0, description: '' },
         mostExpensiveItem: null,
         cheapestItem: null,
+        isSuperUser: useLocalStorage('superUser', false),
+        orderList: useLocalStorage('orderList', []),
     }),
     actions: {
         async fetchItems() {
@@ -47,7 +51,7 @@ export const useItemStore = defineStore('itemStore', {
         },
         async deleteAllItems() {
             try {
-                const response =await axios.delete('http://localhost:5001/api/items');
+                await axios.delete('http://localhost:5001/api/items');
                 this.items = [];
             } catch (error) {
                 console.error('Error deleting all items:', error);
@@ -83,6 +87,70 @@ export const useItemStore = defineStore('itemStore', {
             } catch (error) {
                 console.error('Error fetching cheapest item:', error);
             }
+        },
+        addToOrderList(item) {
+            const orderedItem = this.orderList.find(o => o._id === item._id);
+            if (orderedItem) {
+                if (item.quantity > 0) {
+                    orderedItem.quantity += 1;
+                    item.quantity -= 1;
+                } else {
+                    console.warn('No more items available to add.');
+                }
+            } else {
+                if (item.quantity > 0) {
+                    this.orderList.push({ ...item, quantity: 1 });
+                    item.quantity -= 1;
+                } else {
+                    console.warn('No more items available to add.');
+                }
+            }
+        },
+        updateOrderQuantity(itemId, newQuantity) {
+            const orderItem = this.orderList.find(order => order._id === itemId);
+            const item = this.items.find(item => item._id === itemId);
+
+            if (orderItem && item) {
+                const quantityDifference = newQuantity - orderItem.quantity;
+                orderItem.quantity = newQuantity;
+                item.quantity -= quantityDifference;
+            }
+        },
+        removeFromOrderList(itemId) {
+            const orderItem = this.orderList.find(order => order._id === itemId);
+            const item = this.items.find(item => item._id === itemId);
+
+            if (orderItem && item) {
+                item.quantity += orderItem.quantity; // Restore available quantity
+                this.orderList = this.orderList.filter(order => order._id !== itemId);
+            }
+        },
+        removeAllFromOrderList() {
+            this.orderList.forEach(orderItem => {
+                const item = this.items.find(item => item._id === orderItem._id);
+                if (item) {
+                    item.quantity += orderItem.quantity; // Restore available quantity
+                }
+            });
+            this.orderList = [];
+        },
+        async placeOrder() {
+            try {
+                const response = await axios.post('http://localhost:5001/api/place-order', { items: this.orderList });
+                this.orderList.forEach(orderItem => {
+                    const item = this.items.find(item => item._id === orderItem._id);
+                    if (item) {
+                        item.quantity -= orderItem.quantity; // Update quantity locally
+                    }
+                });
+                this.orderList = [];
+            } catch (error) {
+                console.error('Error placing order:', error);
+            }
+        },
+        toggleSuperUser() {
+            this.isSuperUser = !this.isSuperUser;
+            useLocalStorage('superUser', this.isSuperUser);
         },
     },
 });

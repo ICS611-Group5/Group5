@@ -2,8 +2,10 @@
 import { ref } from 'vue';
 import { useItemStore } from '@/stores/itemStore';
 import { QDialog, QCard, QCardSection, QCardActions, QBtn } from 'quasar';
+import {useSettingsStore} from "@/stores/settings.js";
 
 const itemStore = useItemStore();
+const settingsStore = useSettingsStore();
 const file = ref(null);
 const isModalOpen = ref(false);
 
@@ -31,7 +33,6 @@ const uploadFile = async () => {
   }
 
   try {
-    console.log('Uploading file...');
     await itemStore.bulkUpload(file.value);
     alert('File uploaded successfully');
     closeModal();
@@ -40,11 +41,26 @@ const uploadFile = async () => {
     alert('Error uploading file');
   }
 };
+
+const deleteAll = async () => {
+  try {
+    await itemStore.deleteAllItems();
+    alert('Items deleted successfully');
+    await itemStore.fetchItems();
+  } catch (error) {
+    console.error('Error deleting items:', error);
+    alert('Error deleting items');
+  }
+};
 </script>
 
 <template>
   <div>
-    <q-btn @click="openModal" label=" Bulk Upload" />
+    <h2>Bulk Upload Items</h2>
+    <br>
+    <q-btn @click="openModal" label="Upload" />
+    <q-btn v-if="settingsStore.darkMode" text-color="red-14" color="grey-10" @click="deleteAll" label="Delete All" />
+    <q-btn v-else text-color="negative" color="grey-13" @click="deleteAll" label="Delete All" />
     <q-dialog v-model="isModalOpen">
       <q-card>
         <q-card-section>
@@ -72,5 +88,9 @@ const uploadFile = async () => {
   background-color: #007bff;
   color: white;
   border-radius: 4px;
+}
+.delete-btn {
+  background-color: #4a4a4a; /* Dark grey */
+  color: white; /* Text color */
 }
 </style>
