@@ -1,50 +1,46 @@
 <script setup lang="ts">
-import {useQuasar, QTable, QInput} from 'quasar'
-import {ref} from 'vue'
-import {computed} from 'vue'
+import { useQuasar, type QTableColumn } from 'quasar'
+import { ref, computed } from 'vue'
+import { QTable } from 'quasar';
+
 
 // CONSTS
-
 const $q = useQuasar()
 
 // PROPS
-
 type Props = {
   loading?: boolean,
   rows?: Array<Record<string, unknown>>,
   columns: Array<TableHeaders>,
   itemsPerPage?: Array<number>,
   defaultSort?: string,
-  defaultSortDescending?: boolean
+  defaultSortDescending?: boolean,
   class?: string,
   showSearch?: boolean,
   search?: string,
   rowKey?: string,
+  virtualScroll?: boolean,
+  flatBorders?: boolean
 }
 type TableHeaders = {
+  field: string;
   name: string;
+  style: string;
   label: string;
-  field: string | ((row: any) => any);
-  required?: boolean;
-  align?: 'left' | 'right' | 'center';
-  sortable?: boolean;
-  sort?: (a: any, b: any, rowA: any, rowB: any) => number;
-  format?: (val: any) => string;
-  style?: string;
-  classes?: string;
-  headerClasses?: string;
-};
+  sortable: boolean;
+  align: string;
+  required: boolean
+}
 
 const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: () => [10, 25, 50, 100],
   showSearch: true,
-  rows: () => [],
+  columns: () => [],
 })
-
+const nemberOfRows = ref(5)
 const emits = defineEmits(['row-click'])
 
 // DATA
-
 const search = ref('')
 
 // Quasar has dumb typing for their slots so this is to disable a typescript error in the template
@@ -58,11 +54,10 @@ function rowClick(evt: Event, row: any, index: number): void {
   emits('row-click', [evt, row, index])
 }
 
-const searchSlot = computed( () =>
+const searchSlot = computed(() =>
     props.showSearch == undefined || props.showSearch
         ? search.value
         : props.search
-
 )
 
 </script>
@@ -80,7 +75,6 @@ const searchSlot = computed( () =>
       class="mb-3 shrink"
       prepend-inner-icon="mdi-magnify"
       :style="{maxWidth: '250px'}"
-      autofocus
   >
     <template #append>
       <q-icon name="search"></q-icon>
@@ -88,9 +82,11 @@ const searchSlot = computed( () =>
   </q-input>
 
   <q-table
+      class="my-sticky-header-table"
+      flat bordered
       :rows="props.rows"
       :loading="loading || props.rows === undefined"
-      :columns="props.columns"
+      :columns="Array.isArray(props.columns) ? props.columns : []"
       :class="props.class"
       :flat="true"
       :filter="searchSlot"
@@ -103,6 +99,7 @@ const searchSlot = computed( () =>
       @row-click="rowClick"
       :rows-per-page-options="props.itemsPerPage"
       :row-key="props.rowKey"
+      :virtual-scroll="props.virtualScroll"
       binary-state-sort
   >
     <!-- pass slots from parent to q-table -->
@@ -112,3 +109,36 @@ const searchSlot = computed( () =>
     </template>
   </q-table>
 </template>
+<style lang="sass">
+.my-sticky-header-table
+  /* height or max-height is important */
+  height: 55vh
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th
+    /* bg color is important for th; just specify one */
+    background-color: #808080
+
+  body[data-dark="true"] .q-table__top,
+  body[data-dark="true"] .q-table__bottom,
+  body[data-dark="true"] thead tr:first-child th
+    background-color: #282828
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
+
+</style>

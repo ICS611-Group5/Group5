@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import { useItemStore } from '@/stores/itemStore';
 import { QBtn, QTable } from 'quasar';
 import BulkUploadForm from "@/components/BulkUploadForm.vue";
@@ -21,11 +21,11 @@ onMounted(async () => {
 
 const columns = [
   { name: 'name', required: true, label: 'Name', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true, style: 'width: 30vw;' },
-  { name: 'price', align: 'center', label: 'Price', field: 'price', sortable: true, style: 'width: 25vw;' },
+  { name: 'price', align: 'center', label: 'Price', field: 'price', format: val => `$${val}`, sortable: true, style: 'width: 25vw;' },
   { name: 'quantity', label: 'Available', align: 'center', field: 'quantity', sortable: true, style: 'width: 25vw;' },
   { name: 'description', align: 'left', label: 'Description', field: 'description', sortable: true, style: 'width: 30vw;' },
   { name: 'actions', align: 'left', label: 'Actions', field: 'actions', style: 'width: 20vw;' },
-  { name: 'orderedQty', label: 'In\\ Order', align: 'center', field: (row) =>
+  { name: 'orderedQty', label: 'In Order', align: 'center', field: (row) =>
     {const orderedItem = itemStore.orderList.find(o => o._id === row._id);
       return orderedItem ? orderedItem.quantity : 0;
     }, sortable: true},
@@ -56,6 +56,14 @@ const fetchCheapestItem = async () => {
   await itemStore.fetchCheapestItem();
   itemDetailsModalRef.value.openModal(itemStore.cheapestItem);
 };
+
+const items = computed(() => itemStore.items.map(item => ({
+  id: item.id,
+  name: item.name,
+  price: item.price,
+  quantity: item.quantity,
+  description: item.description,
+})));
 </script>
 
 <template>
@@ -64,36 +72,57 @@ const fetchCheapestItem = async () => {
       <h1 class="py-20">Items Available</h1>
 
       <div class="ingredient-container" style="padding: 20px 0;">
-        <q-table
-            :rows="itemStore.items"
+        <DataTable
+            showSearch
             :columns="columns"
-            :rows-per-page-options="[10, 25, 50, 100]"
-            row-key="name"
-            binary-state-sort>
+            :rows="itemStore.items"
+            :virtual-scroll="true"
+            class="my-sticky-header-table"
+            :items-per-page="[0]"
+        >
           <template v-if="itemStore.isSuperUser" v-slot:body-cell-actions="props">
-            <q-btn flat round icon="edit" @click="itemStore.editItem(props.row)" />
+            <q-btn flat round icon="edit" @click="openEditModal(props.row)" />
             <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />
           </template>
           <template v-else v-slot:body-cell-actions="props">
             <q-btn flat round icon="add" @click="itemStore.addToOrderList(props.row)" />
           </template>
-        </q-table>
+          </DataTable>
+<!--        <q-table-->
+<!--            :rows="itemStore.items"-->
+<!--            :columns="columns"-->
+<!--            :rows-per-page-options="[10, 25, 50, 100]"-->
+<!--            row-key="name"-->
+<!--            binary-state-sort>-->
+<!--          <template v-if="itemStore.isSuperUser" v-slot:body-cell-actions="props">-->
+<!--            <q-btn flat round icon="edit" @click="openEditModal(props.row)" />-->
+<!--            <q-btn flat round icon="delete" color="red" @click="itemStore.deleteItem(props.row._id)" />-->
+<!--          </template>-->
+<!--          <template v-else v-slot:body-cell-actions="props">-->
+<!--            <q-btn flat round icon="add" @click="itemStore.addToOrderList(props.row)" />-->
+<!--          </template>-->
+<!--        </q-table>-->
       </div>
+
       <template v-if="itemStore.isSuperUser">
-        <h2>Add New Item</h2>
+        <h2>Add Item</h2>
         <br>
-        <form @submit.prevent="itemStore.addItem">
-          <q-input dense outline v-model="itemStore.newItem.name" placeholder="Name" required />
-          <q-input dense outline v-model="itemStore.newItem.price" type="number" placeholder="Price" required />
-          <q-input dense outline v-model="itemStore.newItem.description" placeholder="Description" />
-          <q-input dense outline v-model="itemStore.newItem.quantity" placeholder="Quantity" />
-          <q-btn type="submit">Add Item</q-btn>
-        </form>
+        <q-btn label="Add New Item" @click="openAddModal" />
         <br>
+        <br>
+        <AddItemModal ref="addModalRef" />
+        <EditItemModal ref="editModalRef" />
         <BulkUploadForm @upload-success="itemStore.fetchItems" />
+        <ItemDetailsModal ref="itemDetailsModalRef" />
       </template>
       <template v-else>
         <OrderForm />
+        <br>
+        <div class="button-container">
+<!--          <q-btn label="Most Expensive Item" @click="fetchMostExpensiveItem" />-->
+<!--          <q-btn label="Cheapest Item" @click="fetchCheapestItem" />-->
+        </div>
+
       </template>
     </div>
   </div>

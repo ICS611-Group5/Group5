@@ -27,9 +27,17 @@ defineExpose({ openModal });
     <q-card>
       <q-card-section>
         <h3>Add New Item</h3>
-        <input v-model="itemStore.newItem.name" placeholder="Name" required />
-        <input v-model="itemStore.newItem.price" type="number" placeholder="Price" required />
-        <input v-model="itemStore.newItem.description" placeholder="Description" />
+        <q-input outlined dense v-model="itemStore.newItem.name" placeholder="Name" required />
+        <q-input
+            outlined
+            dense
+            v-model="itemStore.newItem.price"
+            type="text"
+            label="Price (USD)"
+            prefix="$"
+        />
+        <q-input outlined dense  v-model="itemStore.newItem.quantity" type="number" label="Quantity" required />
+        <q-input outlined dense v-model="itemStore.newItem.description" placeholder="Description" />
       </q-card-section>
       <q-card-actions align="right">
         <q-btn flat label="Cancel" color="negative" @click="closeModal" />

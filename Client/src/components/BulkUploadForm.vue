@@ -56,7 +56,7 @@ const deleteAll = async () => {
 
 <template>
   <div>
-    <h2>Bulk Upload Items</h2>
+    <h2>Bulk Upload/Delete</h2>
     <br>
     <q-btn @click="openModal" label="Upload" />
     <q-btn v-if="settingsStore.darkMode" text-color="red-14" color="grey-10" @click="deleteAll" label="Delete All" />
